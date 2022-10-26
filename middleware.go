@@ -4,20 +4,16 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/net/context"
 	"gorm.io/gorm"
 )
 
 const gormTransactionKey = "gorm_tx"
 
 // TxHandle gets the gorm transaction handler from the gin context
-func TxHandle(ctx *gin.Context) *gorm.DB {
-	db, ok := ctx.Get(gormTransactionKey)
-
-	if !ok {
-		return nil
-	}
-
-	return db.(*gorm.DB)
+func TxHandle(ctx context.Context) *gorm.DB {
+	db, _ := ctx.Value(gormTransactionKey).(*gorm.DB)
+	return db
 }
 
 // DBTransactionMiddleware handles the create, commit and rollback steps of a gorm transaction
