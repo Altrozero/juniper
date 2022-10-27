@@ -33,6 +33,7 @@ func DBTransactionMiddleware(db *gorm.DB) gin.HandlerFunc {
 
 		if ctx.Writer.Status() < 200 || ctx.Writer.Status() > 299 {
 			tx.Rollback()
+			return
 		}
 
 		if err := tx.Commit().Error; err != nil {
