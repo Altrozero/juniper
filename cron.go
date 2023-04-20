@@ -37,6 +37,8 @@ func (task CronTask) ShouldRun(now time.Time) bool {
 	if err != nil {
 		return false
 	}
+	
+	now = now.Truncate(time.Second)
 
 	return schedule.IsWithin(now)
 }
